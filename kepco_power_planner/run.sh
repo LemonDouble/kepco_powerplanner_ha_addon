@@ -6,7 +6,7 @@ echo "Starting KEPCO Power Planner add-on"
 ACCOUNTS=$(jq --compact-output '.accounts' /data/options.json)
 UPDATE_INTERVAL_MINUTES=$(jq --raw-output '.update_interval' /data/options.json)
 
-# Export accounts for the python script
+# Export for the python script
 export ACCOUNTS="${ACCOUNTS}"
 
 # Convert interval to seconds
