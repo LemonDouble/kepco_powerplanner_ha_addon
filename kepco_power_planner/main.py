@@ -1,7 +1,6 @@
 import os
 import json
 import time
-import requests
 import paho.mqtt.client as mqtt
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -11,40 +10,19 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, NoAlertPresentException
 
-# --- MQTT Configuration (auto-discovered via Supervisor API) ---
-SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN")
-if not SUPERVISOR_TOKEN:
-    raise ValueError("SUPERVISOR_TOKEN environment variable not set.")
-
+# --- MQTT Configuration ---
+MQTT_HOST     = os.environ.get("MQTT_HOST", "core-mosquitto")
+MQTT_PORT     = int(os.environ.get("MQTT_PORT", "1883"))
+MQTT_USERNAME = os.environ.get("MQTT_USERNAME", "")
+MQTT_PASSWORD = os.environ.get("MQTT_PASSWORD", "")
 MQTT_DISCOVERY_PREFIX = "homeassistant"
 
-def get_mqtt_config():
-    """Fetches MQTT connection details from the HA Supervisor service discovery API."""
-    url = "http://supervisor/services/mqtt"
-    headers = {
-        "Authorization": f"Bearer {SUPERVISOR_TOKEN}",
-        "Content-Type": "application/json",
-    }
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-    data = response.json().get("data", {})
-    return {
-        "host": data.get("host", "core-mosquitto"),
-        "port": int(data.get("port", 1883)),
-        "username": data.get("username", ""),
-        "password": data.get("password", ""),
-        "ssl": data.get("ssl", False),
-    }
-
 def create_mqtt_client():
-    config = get_mqtt_config()
-    print(f"Connecting to MQTT broker at {config['host']}:{config['port']}")
+    print(f"Connecting to MQTT broker at {MQTT_HOST}:{MQTT_PORT}")
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-    if config["username"]:
-        client.username_pw_set(config["username"], config["password"])
-    if config["ssl"]:
-        client.tls_set()
-    client.connect(config["host"], config["port"], keepalive=60)
+    if MQTT_USERNAME:
+        client.username_pw_set(MQTT_USERNAME, MQTT_PASSWORD)
+    client.connect(MQTT_HOST, MQTT_PORT, keepalive=60)
     return client
 
 def publish_discovery(client, cust_no, sensor_type, config):
