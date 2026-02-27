@@ -1,5 +1,5 @@
 {
-  "name": "한전 파워플래너 Home Assistant Add-ons",
-  "url": "https://github.com/korjoeayo/kepco_powerplanner_ha_addon",
-  "maintainer": "korjoeayo"
+  "name": "한전 파워플래너 Home Assistant Add-ons (LemonDouble)",
+  "url": "https://github.com/LemonDouble/kepco_powerplanner_ha_addon",
+  "maintainer": "LemonDouble"
 }
