@@ -1,5 +1,5 @@
 name: "한전 파워플래너"
-version: "0.1.6"
+version: "0.1.7"
 slug: "kepco_power_planner"
 description: "한전 파워플래너에서 데이터를 가져오는 애드온입니다."
 logo: true
@@ -12,8 +12,9 @@ arch:
 init: false
 api: true
 hassio_api: true
-hassio_role: default
 homeassistant_api: true
+services:
+  - "mqtt:want"
 options:
   accounts: []
   update_interval: 30
