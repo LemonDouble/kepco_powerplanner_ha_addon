@@ -7,8 +7,8 @@ ACCOUNTS=$(jq --compact-output '.accounts' /data/options.json)
 UPDATE_INTERVAL_MINUTES=$(jq --raw-output '.update_interval' /data/options.json)
 MQTT_HOST=$(jq --raw-output '.mqtt_host' /data/options.json)
 MQTT_PORT=$(jq --raw-output '.mqtt_port' /data/options.json)
-MQTT_USERNAME=$(jq --raw-output '.mqtt_username' /data/options.json)
-MQTT_PASSWORD=$(jq --raw-output '.mqtt_password' /data/options.json)
+MQTT_USERNAME=$(jq --raw-output '.mqtt_username // ""' /data/options.json)
+MQTT_PASSWORD=$(jq --raw-output '.mqtt_password // ""' /data/options.json)
 
 # Export for the python script
 export ACCOUNTS="${ACCOUNTS}"

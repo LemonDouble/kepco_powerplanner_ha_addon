@@ -1,5 +1,5 @@
 name: "한전 파워플래너"
-version: "0.1.8"
+version: "0.1.9"
 slug: "kepco_power_planner"
 description: "한전 파워플래너에서 데이터를 가져오는 애드온입니다."
 logo: true
@@ -15,8 +15,8 @@ options:
   update_interval: 30
   mqtt_host: "core-mosquitto"
   mqtt_port: 1883
-  mqtt_username: ""
-  mqtt_password: ""
+  mqtt_username: null
+  mqtt_password: null
 schema:
   accounts:
     - RSA_USER_ID: str
@@ -24,5 +24,5 @@ schema:
   update_interval: "int(1,)"
   mqtt_host: str
   mqtt_port: "int(1,65535)"
-  mqtt_username: str
-  mqtt_password: str
+  mqtt_username: str?
+  mqtt_password: password?
